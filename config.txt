@@ -1,0 +1,7 @@
+dbname : u632480160_finance
+
+username : u632480160_finance
+
+password :@Babahelp13
+
+MySQL server hostname is: srv1124.hstgr.io
