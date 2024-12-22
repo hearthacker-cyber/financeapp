@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Manage Agency Admins - CRM Dashboard</title>
+    <title>Manage Agencies - CRM Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="CRM Dashboard for Managing Agency Admins" name="description" />
+    <meta content="CRM Dashboard for Managing Agencies and Subscription Statuses" name="description" />
     <meta content="Coderthemes" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -44,23 +44,19 @@
                     <?php include 'title.php'; ?>
                     <!-- End Page Title -->
 
-                    <!-- Add New Admin Button -->
-                    <div class="mb-4">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAdminModal">
-                            <i class="mdi mdi-account-plus me-1"></i> Add New Agency Admin
-                        </button>
-                    </div>
-
                     <!-- DataTables -->
                     <div class="table-responsive">
-                        <table id="adminTable" class="table table-bordered table-hover table-striped table-sm">
+                        <table id="agencyTable" class="table table-bordered table-hover table-striped table-sm">
                             <thead class="table-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>Admin Name</th>
-                                    <th>Email</th>
+                                    <th>Agency Name</th>
                                     <th>Contact Number</th>
-                                    <th>Status</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Subscription Status</th>
+                                    <th>Pending Subscription</th>
+                                    <th>Pending Days</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -68,31 +64,37 @@
                                 <!-- Example Data Rows -->
                                 <tr>
                                     <td>1</td>
-                                    <td>Alice Johnson</td>
-                                    <td>alice.johnson@example.com</td>
+                                    <td>Alpha Finance</td>
                                     <td>9876543210</td>
+                                    <td>alpha.finance@example.com</td>
+                                    <td>123, Market Street, Mumbai</td>
                                     <td>Active</td>
+                                    <td>No</td>
+                                    <td>0</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm" onclick="editAdmin(1)" title="Edit">
+                                        <button class="btn btn-primary btn-sm" onclick="editAgency(1)" title="Edit Agency" aria-label="Edit Agency">
                                             <i class="mdi mdi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-danger btn-sm" onclick="deactivateAdmin(1)" title="Deactivate">
-                                            <i class="mdi mdi-account-off"></i>
+                                        <button class="btn btn-danger btn-sm" onclick="deactivateAgency(1)" title="Deactivate Subscription" aria-label="Deactivate Subscription">
+                                            <i class="mdi mdi-logout"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Bob Smith</td>
-                                    <td>bob.smith@example.com</td>
+                                    <td>Beta Loans</td>
                                     <td>9123456789</td>
+                                    <td>beta.loans@example.com</td>
+                                    <td>456, Liberty Road, Delhi</td>
                                     <td>Inactive</td>
+                                    <td>Yes</td>
+                                    <td>15</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm" onclick="editAdmin(2)" title="Edit">
+                                        <button class="btn btn-primary btn-sm" onclick="editAgency(2)" title="Edit Agency" aria-label="Edit Agency">
                                             <i class="mdi mdi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-success btn-sm" onclick="activateAdmin(2)" title="Activate">
-                                            <i class="mdi mdi-account-check"></i>
+                                        <button class="btn btn-success btn-sm" onclick="activateAgency(2)" title="Activate Subscription" aria-label="Activate Subscription">
+                                            <i class="mdi mdi-login"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -120,117 +122,70 @@
     <?php include 'rightbar.php'; ?>
     <div class="rightbar-overlay"></div>
 
-    <!-- Add Admin Modal -->
-    <div class="modal fade" id="addAdminModal" tabindex="-1" aria-labelledby="addAdminModalLabel" aria-hidden="true">
+    <!-- Edit Agency Modal -->
+    <div class="modal fade" id="editAgencyModal" tabindex="-1" aria-labelledby="editAgencyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form id="addAdminForm">
+            <form id="editAgencyForm">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addAdminModalLabel">Add New Agency Admin</h5>
+                        <h5 class="modal-title" id="editAgencyModalLabel">Edit Agency Details</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Basic Admin Details -->
+                        <!-- Hidden field for Agency ID -->
+                        <input type="hidden" id="editAgencyId" name="agencyId">
+
+                        <!-- Basic Agency Details -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="adminName" class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" id="adminName" name="adminName" required>
+                                <label for="editAgencyName" class="form-label">Agency Name</label>
+                                <input type="text" class="form-control" id="editAgencyName" name="agencyName" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="adminEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="adminEmail" name="adminEmail" required>
+                                <label for="editContactNumber" class="form-label">Contact Number</label>
+                                <input type="tel" class="form-control" id="editContactNumber" name="contactNumber" pattern="\d{10}" title="Enter a 10-digit contact number" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="adminContact" class="form-label">Contact Number</label>
-                                <input type="tel" class="form-control" id="adminContact" name="adminContact" pattern="\d{10}" title="Enter a 10-digit contact number" required>
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail" name="email" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="adminStatus" class="form-label">Status</label>
-                                <select class="form-select" id="adminStatus" name="adminStatus" required>
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
+                                <label for="editAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="editAddress" name="address" required>
                             </div>
                         </div>
 
-                        <!-- Password (Optional for initial setup) -->
+                        <!-- Subscription Status -->
                         <div class="mb-3">
-                            <label for="adminPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="adminPassword" name="adminPassword" minlength="6" required>
+                            <label for="editSubscriptionStatus" class="form-label">Subscription Status</label>
+                            <select class="form-select" id="editSubscriptionStatus" name="subscriptionStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
                         </div>
 
-                        <!-- Confirm Password -->
+                        <!-- Pending Subscription -->
                         <div class="mb-3">
-                            <label for="adminConfirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="adminConfirmPassword" name="adminConfirmPassword" minlength="6" required>
+                            <label for="editPendingSubscription" class="form-label">Pending Subscription</label>
+                            <select class="form-select" id="editPendingSubscription" name="pendingSubscription" required>
+                                <option value="">Select Status</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+
+                        <!-- Pending Days -->
+                        <div class="mb-3">
+                            <label for="editPendingDays" class="form-label">Pending Days</label>
+                            <input type="number" class="form-control" id="editPendingDays" name="pendingDays" min="0" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add Admin</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Admin Modal -->
-    <div class="modal fade" id="editAdminModal" tabindex="-1" aria-labelledby="editAdminModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <form id="editAdminForm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editAdminModalLabel">Edit Agency Admin</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Hidden field for Admin ID -->
-                        <input type="hidden" id="editAdminId" name="adminId">
-
-                        <!-- Basic Admin Details -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editAdminName" class="form-label">Admin Name</label>
-                                <input type="text" class="form-control" id="editAdminName" name="adminName" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editAdminEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="editAdminEmail" name="adminEmail" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="editAdminContact" class="form-label">Contact Number</label>
-                                <input type="tel" class="form-control" id="editAdminContact" name="adminContact" pattern="\d{10}" title="Enter a 10-digit contact number" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="editAdminStatus" class="form-label">Status</label>
-                                <select class="form-select" id="editAdminStatus" name="adminStatus" required>
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Password (Optional for updates) -->
-                        <div class="mb-3">
-                            <label for="editAdminPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="editAdminPassword" name="adminPassword" minlength="6" placeholder="Leave blank to keep existing password">
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="mb-3">
-                            <label for="editAdminConfirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="editAdminConfirmPassword" name="adminConfirmPassword" minlength="6" placeholder="Leave blank to keep existing password">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Update Admin</button>
+                        <button type="submit" class="btn btn-primary">Update Agency</button>
                     </div>
                 </div>
             </form>
@@ -254,8 +209,8 @@
     <!-- Custom JS -->
     <script>
         $(document).ready(function () {
-            // Initialize DataTable for Agency Admins
-            var adminTable = $('#adminTable').DataTable({
+            // Initialize DataTable for Agencies
+            var agencyTable = $('#agencyTable').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,
@@ -264,154 +219,136 @@
                     { "orderable": false, "targets": -1 } // Make Actions column non-orderable
                 ],
                 "language": {
-                    "search": "Search Admins:",
-                    "lengthMenu": "Show _MENU_ admins",
-                    "info": "Showing _START_ to _END_ of _TOTAL_ admins"
+                    "search": "Search Agencies:",
+                    "lengthMenu": "Show _MENU_ agencies",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ agencies"
                 }
             });
 
-            // Handle Add Admin Form Submission
-            $('#addAdminForm').on('submit', function (e) {
+            // Handle Edit Agency Form Submission
+            $('#editAgencyForm').on('submit', function (e) {
                 e.preventDefault();
-                // Validate Passwords
-                var password = $('#adminPassword').val();
-                var confirmPassword = $('#adminConfirmPassword').val();
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match.');
-                    return;
-                }
-
                 // Collect form data
                 var formData = $(this).serializeArray();
-                var adminData = {};
+                var agencyData = {};
                 formData.forEach(function (field) {
-                    adminData[field.name] = field.value;
+                    agencyData[field.name] = field.value;
                 });
 
-                // Generate a new Admin ID (placeholder, should be handled by backend)
-                var newId = adminTable.rows().count() + 1;
-
-                // Add new row to DataTable
-                adminTable.row.add([
-                    newId,
-                    adminData.adminName,
-                    adminData.adminEmail,
-                    adminData.adminContact,
-                    adminData.adminStatus,
-                    '<button class="btn btn-primary btn-sm" onclick="editAdmin(' + newId + ')" title="Edit"><i class="mdi mdi-pencil"></i></button>' +
-                    ' <button class="btn btn-danger btn-sm" onclick="deactivateAdmin(' + newId + ')" title="Deactivate"><i class="mdi mdi-account-off"></i></button>'
-                ]).draw(false);
-
-                // Reset the form and hide the modal
-                $(this)[0].reset();
-                $('#addAdminModal').modal('hide');
-            });
-
-            // Handle Edit Admin Form Submission
-            $('#editAdminForm').on('submit', function (e) {
-                e.preventDefault();
-                // Validate Passwords if fields are filled
-                var password = $('#editAdminPassword').val();
-                var confirmPassword = $('#editAdminConfirmPassword').val();
-                if (password || confirmPassword) {
-                    if (password !== confirmPassword) {
-                        alert('Passwords do not match.');
-                        return;
-                    }
-                }
-
-                // Collect form data
-                var formData = $(this).serializeArray();
-                var adminData = {};
-                formData.forEach(function (field) {
-                    adminData[field.name] = field.value;
-                });
-
-                // Get Admin ID
-                var adminId = parseInt(adminData.adminId);
+                // Get Agency ID
+                var agencyId = parseInt(agencyData.agencyId);
 
                 // Find the row in DataTable
-                adminTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                agencyTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var data = this.data();
-                    if (parseInt(data[0]) === adminId) {
+                    if (parseInt(data[0]) === agencyId) {
                         // Update row data
-                        var actions = '<button class="btn btn-primary btn-sm" onclick="editAdmin(' + adminId + ')" title="Edit"><i class="mdi mdi-pencil"></i></button> ' +
-                                      '<button class="btn btn-danger btn-sm" onclick="deactivateAdmin(' + adminId + ')" title="Deactivate"><i class="mdi mdi-account-off"></i></button>';
                         this.data([
-                            adminId,
-                            adminData.adminName,
-                            adminData.adminEmail,
-                            adminData.adminContact,
-                            adminData.adminStatus,
-                            actions
+                            agencyId,
+                            agencyData.agencyName,
+                            agencyData.contactNumber,
+                            agencyData.email,
+                            agencyData.address,
+                            agencyData.subscriptionStatus,
+                            agencyData.pendingSubscription,
+                            agencyData.pendingDays,
+                            agencyData.subscriptionStatus === 'Active' ?
+                                '<button class="btn btn-primary btn-sm" onclick="editAgency(' + agencyId + ')" title="Edit Agency" aria-label="Edit Agency">' +
+                                '<i class="mdi mdi-pencil"></i></button> ' +
+                                '<button class="btn btn-danger btn-sm" onclick="deactivateAgency(' + agencyId + ')" title="Deactivate Subscription" aria-label="Deactivate Subscription">' +
+                                '<i class="mdi mdi-logout"></i></button>' :
+                                '<button class="btn btn-primary btn-sm" onclick="editAgency(' + agencyId + ')" title="Edit Agency" aria-label="Edit Agency">' +
+                                '<i class="mdi mdi-pencil"></i></button> ' +
+                                '<button class="btn btn-success btn-sm" onclick="activateAgency(' + agencyId + ')" title="Activate Subscription" aria-label="Activate Subscription">' +
+                                '<i class="mdi mdi-login"></i></button>'
                         ]).draw(false);
                     }
                 });
 
                 // Reset the form and hide the modal
                 $(this)[0].reset();
-                $('#editAdminModal').modal('hide');
+                $('#editAgencyModal').modal('hide');
             });
         });
 
-        // Function to handle Edit Admin
-        function editAdmin(adminId) {
-            // Find the row data based on adminId
+        // Function to handle Edit Agency
+        function editAgency(agencyId) {
+            // Find the row data based on agencyId
             var rowData = null;
-            $('#adminTable').DataTable().rows().every(function (rowIdx, tableLoop, rowLoop) {
+            $('#agencyTable').DataTable().rows().every(function (rowIdx, tableLoop, rowLoop) {
                 var data = this.data();
-                if (parseInt(data[0]) === adminId) {
+                if (parseInt(data[0]) === agencyId) {
                     rowData = data;
                 }
             });
 
             if (rowData) {
                 // Populate the edit form with existing data
-                $('#editAdminId').val(rowData[0]);
-                $('#editAdminName').val(rowData[1]);
-                $('#editAdminEmail').val(rowData[2]);
-                $('#editAdminContact').val(rowData[3]);
-                $('#editAdminStatus').val(rowData[4]);
-                $('#editAdminPassword').val('');
-                $('#editAdminConfirmPassword').val('');
+                $('#editAgencyId').val(rowData[0]);
+                $('#editAgencyName').val(rowData[1]);
+                $('#editContactNumber').val(rowData[2]);
+                $('#editEmail').val(rowData[3]);
+                $('#editAddress').val(rowData[4]);
+                $('#editSubscriptionStatus').val(rowData[5]);
+                $('#editPendingSubscription').val(rowData[6]);
+                $('#editPendingDays').val(rowData[7]);
 
-                // Show the Edit Admin Modal
-                $('#editAdminModal').modal('show');
+                // Show the Edit Agency Modal
+                $('#editAgencyModal').modal('show');
             }
         }
 
-        // Function to deactivate Admin
-        function deactivateAdmin(adminId) {
-            if (confirm('Are you sure you want to deactivate this admin?')) {
-                $('#adminTable').DataTable().rows().every(function (rowIdx, tableLoop, rowLoop) {
+        // Function to deactivate Agency Subscription
+        function deactivateAgency(agencyId) {
+            if (confirm('Are you sure you want to deactivate the subscription for this agency?')) {
+                $('#agencyTable').DataTable().rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var data = this.data();
-                    if (parseInt(data[0]) === adminId) {
+                    if (parseInt(data[0]) === agencyId) {
                         // Update status to Inactive
-                        data[4] = 'Inactive';
+                        data[5] = 'Inactive';
+                        // Reset Pending Subscription and Days
+                        data[6] = 'Yes'; // Assuming deactivation triggers a pending subscription
+                        data[7] = calculatePendingDays(); // Function to calculate pending days
+
                         // Update action buttons to allow activation
-                        data[5] = '<button class="btn btn-primary btn-sm" onclick="editAdmin(' + adminId + ')" title="Edit"><i class="mdi mdi-pencil"></i></button> ' +
-                                  '<button class="btn btn-success btn-sm" onclick="activateAdmin(' + adminId + ')" title="Activate"><i class="mdi mdi-account-check"></i></button>';
+                        data[8] = '<button class="btn btn-primary btn-sm" onclick="editAgency(' + agencyId + ')" title="Edit Agency" aria-label="Edit Agency">' +
+                            '<i class="mdi mdi-pencil"></i></button> ' +
+                            '<button class="btn btn-success btn-sm" onclick="activateAgency(' + agencyId + ')" title="Activate Subscription" aria-label="Activate Subscription">' +
+                            '<i class="mdi mdi-login"></i></button>';
                         this.data(data).draw(false);
                     }
                 });
             }
         }
 
-        // Function to activate Admin
-        function activateAdmin(adminId) {
-            if (confirm('Are you sure you want to activate this admin?')) {
-                $('#adminTable').DataTable().rows().every(function (rowIdx, tableLoop, rowLoop) {
+        // Function to activate Agency Subscription
+        function activateAgency(agencyId) {
+            if (confirm('Are you sure you want to activate the subscription for this agency?')) {
+                $('#agencyTable').DataTable().rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var data = this.data();
-                    if (parseInt(data[0]) === adminId) {
+                    if (parseInt(data[0]) === agencyId) {
                         // Update status to Active
-                        data[4] = 'Active';
+                        data[5] = 'Active';
+                        // Reset Pending Subscription and Days
+                        data[6] = 'No';
+                        data[7] = '0';
+
                         // Update action buttons to allow deactivation
-                        data[5] = '<button class="btn btn-primary btn-sm" onclick="editAdmin(' + adminId + ')" title="Edit"><i class="mdi mdi-pencil"></i></button> ' +
-                                  '<button class="btn btn-danger btn-sm" onclick="deactivateAdmin(' + adminId + ')" title="Deactivate"><i class="mdi mdi-account-off"></i></button>';
+                        data[8] = '<button class="btn btn-primary btn-sm" onclick="editAgency(' + agencyId + ')" title="Edit Agency" aria-label="Edit Agency">' +
+                            '<i class="mdi mdi-pencil"></i></button> ' +
+                            '<button class="btn btn-danger btn-sm" onclick="deactivateAgency(' + agencyId + ')" title="Deactivate Subscription" aria-label="Deactivate Subscription">' +
+                            '<i class="mdi mdi-logout"></i></button>';
                         this.data(data).draw(false);
                     }
                 });
             }
+        }
+
+        // Function to calculate pending days (placeholder logic)
+        function calculatePendingDays() {
+            // Example: Set pending days to 30
+            // Replace this with actual logic based on subscription policies
+            return 30;
         }
     </script>
 </body>
