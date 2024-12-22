@@ -22,15 +22,7 @@
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg">
 
                 <!-- Notification Title -->
-                <div class="dropdown-item noti-title px-3">
-                    <h5 class="m-0">
-                        <span class="float-end">
-                            <a href="javascript: void(0);" class="text-dark">
-                                <small>Clear All</small>
-                            </a>
-                        </span>Notifications
-                    </h5>
-                </div>
+
 
                 <!-- Notification Content -->
                 <div class="px-3" style="max-height: 300px;" data-simplebar>
@@ -76,11 +68,7 @@
                     <i class="mdi mdi-account-edit me-1"></i>
                     <span>Settings</span>
                 </a>
-                <a href="lock-screen.html" class="dropdown-item notify-item">
-                    <i class="mdi mdi-lock-outline me-1"></i>
-                    <span>Lock Screen</span>
-                </a>
-                <a href="logout.html" class="dropdown-item notify-item">
+                <a href="logout.php" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout me-1"></i>
                     <span>Logout</span>
                 </a>

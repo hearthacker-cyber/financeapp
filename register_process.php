@@ -1,3 +1,91 @@
+<?php
+// register.php
+
+// Start session to store messages
+session_start();
+
+// Include the database configuration file
+require_once 'include/config.php';
+
+// Initialize variables for error and success messages
+$errors = [];
+$success = "";
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve and sanitize user inputs
+    $fullname        = trim($_POST['fullname']);
+    $email           = trim($_POST['email']);
+    $password        = trim($_POST['password']);
+    $confirmPassword = trim($_POST['confirmpassword']);
+
+    // Basic validation
+    if (empty($fullname)) {
+        $errors[] = "Full Name is required.";
+    }
+
+    if (empty($email)) {
+        $errors[] = "Email address is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+
+    if (empty($password)) {
+        $errors[] = "Password is required.";
+    } elseif (strlen($password) < 6) {
+        $errors[] = "Password must be at least 6 characters.";
+    }
+
+    if (empty($confirmPassword)) {
+        $errors[] = "Confirm Password is required.";
+    } elseif ($password !== $confirmPassword) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    // Check if terms and conditions are accepted
+    if (!isset($_POST['checkbox-terms'])) {
+        $errors[] = "You must agree to the Terms and Conditions.";
+    }
+
+    // If no errors, proceed to insert the user into the database
+    if (empty($errors)) {
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        // Prepare an SQL statement to prevent SQL injection
+        $stmt = mysqli_prepare($conn, "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)");
+        if ($stmt) {
+            // Bind parameters
+            mysqli_stmt_bind_param($stmt, "sss", $fullname, $email, $hashedPassword);
+
+            // Execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                $success = "Registration successful! You can now <a href='index.php'>log in</a>.";
+            } else {
+                // Check for duplicate email error
+                if (mysqli_errno($conn) === 1062) { // 1062 = Duplicate entry
+                    $errors[] = "Email already exists. Please use a different email.";
+                } else {
+                    $errors[] = "Registration failed. Please try again later.";
+                    // Log the error for debugging (optional)
+                    error_log("Database Error: " . mysqli_error($conn));
+                }
+            }
+
+            // Close the statement
+            mysqli_stmt_close($stmt);
+        } else {
+            $errors[] = "Failed to prepare the registration statement.";
+            // Log the error for debugging (optional)
+            error_log("Prepare Error: " . mysqli_error($conn));
+        }
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,7 +156,7 @@
                     <?php endif; ?>
 
                     <!-- Form -->
-                    <form action="register_process.php" method="POST">
+                    <form action="register.php" method="POST">
                         <div class="mb-3">
                             <label for="fullname" class="form-label">Full Name</label>
                             <input class="form-control" type="text" id="fullname" name="fullname" required placeholder="Enter your full name" value="<?php echo isset($_POST['fullname']) ? htmlspecialchars($_POST['fullname']) : ''; ?>">
