@@ -1,0 +1,5 @@
+dbname : u632480160_finance
+
+username : u632480160_finance
+
+password :@Babahelp13
