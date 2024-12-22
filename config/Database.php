@@ -2,7 +2,7 @@
 class Database
 {
     // Database connection properties
-    private static $host = "srv1124.hstgr.io";      // Database host
+    private static $host = "srv1124.hstgr.";      // Database host
     private static $username = "u632480160_finance"; // Database username
     private static $password = "@Babahelp13";       // Database password
     private static $dbname = "u632480160_finance";   // Database name
