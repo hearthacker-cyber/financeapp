@@ -1,0 +1,3 @@
+Customer ARIHARASUDHAN P (ID: 1) selected menu 2
+[2024-12-21 13:27:00] Customer: ARIHARASUDHAN P (ID: 1) selected option 2 - Response: Your loan payment is up-to-date.
+[2024-12-21 13:27:08] Customer: ARIHARASUDHAN P (ID: 1) selected option 2 - Response: Your loan payment is up-to-date.

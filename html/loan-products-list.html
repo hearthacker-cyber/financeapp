@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Products List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-lg-12 text-center">
+                <h2>Loan Products List</h2>
+                <p class="text-muted">Manage all loan products available for your customers.</p>
+                <button class="btn btn-primary mt-2" onclick="openAddProductModal()">Add New Product</button>
+            </div>
+        </div>
+
+        <!-- Loan Products Table -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Product Name</th>
+                                <th>Type</th>
+                                <th>Interest Rate</th>
+                                <th>Repayment Terms</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Loan Product Row -->
+                            <tr>
+                                <td>1</td>
+                                <td>Personal Loan</td>
+                                <td>Unsecured</td>
+                                <td>12% per annum</td>
+                                <td>Monthly</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" onclick="editProduct(1)">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Vehicle Loan</td>
+                                <td>Secured</td>
+                                <td>10% per annum</td>
+                                <td>Monthly</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" onclick="editProduct(2)">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(2)">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- Add more rows dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Add/Edit Loan Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" placeholder="Enter product name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productType" class="form-label">Type</label>
+                            <select class="form-select" id="productType" required>
+                                <option value="Unsecured">Unsecured</option>
+                                <option value="Secured">Secured</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interestRate" class="form-label">Interest Rate</label>
+                            <input type="text" class="form-control" id="interestRate" placeholder="e.g., 12% per annum" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repaymentTerms" class="form-label">Repayment Terms</label>
+                            <select class="form-select" id="repaymentTerms" required>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="Daily">Daily</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Save Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openAddProductModal() {
+            document.getElementById('productModalLabel').innerText = 'Add Loan Product';
+            document.getElementById('productForm').reset();
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            productModal.show();
+        }
+
+        function editProduct(id) {
+            document.getElementById('productModalLabel').innerText = 'Edit Loan Product';
+            // Populate form with product data (fetch from server or preloaded data)
+            // Example: Fetch product details for the given ID and fill in the form
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            productModal.show();
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                // Perform delete operation (send request to server)
+                alert('Product deleted successfully!');
+            }
+        }
+    </script>
+</body>
+</html>
