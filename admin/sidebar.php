@@ -39,42 +39,20 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarUserRole" aria-expanded="false" aria-controls="sidebarUserRole" class="side-nav-link">
                     <i class="uil-user-circle"></i>
-                    <span> User Role Management </span>
+                    <span>Agency Management </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarUserRole">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="manage_agency_admins.php">Manage Agency Admins</a>
-                        </li>
-                        <li>
-                            <a href="manage_roles.php">Manage Roles & Permissions</a>
+                            <a href="manage_agency_admins.php">Manage Agencies</a>
                         </li>
                     </ul>
                 </div>
             </li>
 
             <!-- Package Management -->
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPackageManagement" aria-expanded="false" aria-controls="sidebarPackageManagement" class="side-nav-link">
-                    <i class="uil-box"></i>
-                    <span> Package Management </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPackageManagement">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="define_packages.php">Define Packages</a>
-                        </li>
-                        <li>
-                            <a href="upgrade_options.php">Upgrade Options</a>
-                        </li>
-                        <li>
-                            <a href="assign_packages.php">Assign Packages to Agencies</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+
 
             <!-- System Monitoring -->
             <li class="side-nav-item">
@@ -148,19 +126,13 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarUserManagement" aria-expanded="false" aria-controls="sidebarUserManagement" class="side-nav-link">
                     <i class="uil-users-alt"></i>
-                    <span> User Management </span>
+                    <span> Decconz Agent Management </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarUserManagement">
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="user_list.php">User List</a>
-                        </li>
-                        <li>
-                            <a href="add_user.php">Add New User</a>
-                        </li>
-                        <li>
-                            <a href="user_roles.php">User Roles</a>
                         </li>
                     </ul>
                 </div>

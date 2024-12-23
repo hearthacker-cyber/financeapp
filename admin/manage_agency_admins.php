@@ -64,7 +64,7 @@
                                 <!-- Example Data Rows -->
                                 <tr>
                                     <td>1</td>
-                                    <td>Alpha Finance</td>
+                                    <td><a href="agency_dashboard.php?agency_id=1">Alpha Finance</a></td>
                                     <td>9876543210</td>
                                     <td>alpha.finance@example.com</td>
                                     <td>123, Market Street, Mumbai</td>
@@ -82,7 +82,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Beta Loans</td>
+                                    <td><a href="agency_dashboard.php?agency_id=2">Beta Loans</a></td>
                                     <td>9123456789</td>
                                     <td>beta.loans@example.com</td>
                                     <td>456, Liberty Road, Delhi</td>
@@ -245,7 +245,7 @@
                         // Update row data
                         this.data([
                             agencyId,
-                            agencyData.agencyName,
+                            '<a href="agency_dashboard.php?agency_id=' + agencyId + '">' + agencyData.agencyName + '</a>',
                             agencyData.contactNumber,
                             agencyData.email,
                             agencyData.address,
@@ -285,7 +285,9 @@
             if (rowData) {
                 // Populate the edit form with existing data
                 $('#editAgencyId').val(rowData[0]);
-                $('#editAgencyName').val(rowData[1]);
+                // Extract agency name without HTML tags
+                var agencyName = $(rowData[1]).text();
+                $('#editAgencyName').val(agencyName);
                 $('#editContactNumber').val(rowData[2]);
                 $('#editEmail').val(rowData[3]);
                 $('#editAddress').val(rowData[4]);
@@ -310,6 +312,9 @@
                         data[6] = 'Yes'; // Assuming deactivation triggers a pending subscription
                         data[7] = calculatePendingDays(); // Function to calculate pending days
 
+                        // Update agency name link if needed
+                        data[1] = '<a href="agency_dashboard.php?agency_id=' + agencyId + '">' + $(data[1]).text() + '</a>';
+
                         // Update action buttons to allow activation
                         data[8] = '<button class="btn btn-primary btn-sm" onclick="editAgency(' + agencyId + ')" title="Edit Agency" aria-label="Edit Agency">' +
                             '<i class="mdi mdi-pencil"></i></button> ' +
@@ -332,6 +337,9 @@
                         // Reset Pending Subscription and Days
                         data[6] = 'No';
                         data[7] = '0';
+
+                        // Update agency name link if needed
+                        data[1] = '<a href="agency_dashboard.php?agency_id=' + agencyId + '">' + $(data[1]).text() + '</a>';
 
                         // Update action buttons to allow deactivation
                         data[8] = '<button class="btn btn-primary btn-sm" onclick="editAgency(' + agencyId + ')" title="Edit Agency" aria-label="Edit Agency">' +
