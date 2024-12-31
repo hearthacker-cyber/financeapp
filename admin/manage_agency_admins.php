@@ -64,7 +64,7 @@
                                 <!-- Example Data Rows -->
                                 <tr>
                                     <td>1</td>
-                                    <td><a href="agency_dashboard.php?agency_id=1">Alpha Finance</a></td>
+                                    <td><a href="../index.php">Alpha Finance</a></td>
                                     <td>9876543210</td>
                                     <td>alpha.finance@example.com</td>
                                     <td>123, Market Street, Mumbai</td>
@@ -82,7 +82,7 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><a href="agency_dashboard.php?agency_id=2">Beta Loans</a></td>
+                                    <td><a href="../index.php">Beta Loans</a></td>
                                     <td>9123456789</td>
                                     <td>beta.loans@example.com</td>
                                     <td>456, Liberty Road, Delhi</td>
