@@ -59,7 +59,7 @@
     <!-- Begin page -->
     <div class="wrapper">
         <!-- ========== Left Sidebar Start ========== -->
-        <!-- Replace this comment with your sidebar.php content -->
+        <!-- Replace this comment with your includes/sidebar.php content -->
         <!-- Example Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-content js-simplebar">
@@ -96,7 +96,7 @@
         <div class="content-page">
             <div class="content">
                 <!-- Topbar Start -->
-                <!-- Replace this comment with your topbar.php content -->
+                <!-- Replace this comment with your includes/topbar.php content -->
                 <!-- Example Topbar -->
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
@@ -325,7 +325,7 @@
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <!-- Replace this comment with your footer.php content -->
+            <!-- Replace this comment with your includes/footer.php content -->
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
@@ -353,7 +353,7 @@
     <!-- END wrapper -->
 
     <!-- Right Sidebar -->
-    <!-- Replace this comment with your rightbar.php content -->
+    <!-- Replace this comment with your includes/rightbar.php content -->
     <aside class="rightbar">
         <!-- Right Sidebar content -->
     </aside>

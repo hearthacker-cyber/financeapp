@@ -32,7 +32,7 @@
     <!-- Begin page -->
     <div class="wrapper">
         <!-- ========== Left Sidebar Start ========== -->
-        <?php include 'sidebar.php'; ?>
+        <?php include 'includes/sidebar.php'; ?>
         <!-- Left Sidebar End -->
 
         <!-- ============================================================== -->
@@ -42,14 +42,14 @@
         <div class="content-page">
             <div class="content">
                 <!-- Topbar Start -->
-                <?php include 'topbar.php'; ?>
+                <?php include 'includes/topbar.php'; ?>
                 <!-- end Topbar -->
 
                 <!-- Start Content-->
                 <div class="container-fluid">
 
                     <!-- start page title -->
-                    <?php include 'title.php'; ?>
+                    <?php include 'includes/title.php'; ?>
                     <!-- end page title -->
 
                     <!-- Top Cards -->
@@ -156,7 +156,7 @@
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include 'footer.php'; ?>
+            <?php include 'includes/footer.php'; ?>
             <!-- end Footer -->
 
         </div>
@@ -170,7 +170,7 @@
 
 
     <!-- Right Sidebar -->
-    <?php include 'rightbar.php'; ?>
+    <?php include 'includes/rightbar.php'; ?>
 
     <div class="rightbar-overlay"></div>
     <!-- /End-bar -->

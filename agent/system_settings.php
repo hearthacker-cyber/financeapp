@@ -26,7 +26,7 @@
     <!-- Begin page -->
     <div class="wrapper">
         <!-- ========== Left Sidebar Start ========== -->
-        <?php include 'sidebar.php'; ?>
+        <?php include 'includes/sidebar.php'; ?>
         <!-- Left Sidebar End -->
 
         <!-- ============================================================== -->
@@ -35,13 +35,13 @@
         <div class="content-page">
             <div class="content">
                 <!-- Topbar Start -->
-                <?php include 'topbar.php'; ?>
+                <?php include 'includes/topbar.php'; ?>
                 <!-- end Topbar -->
 
                 <!-- Start Content -->
                 <div class="container-fluid">
                     <!-- Start Page Title -->
-                    <?php include 'title.php'; ?>
+                    <?php include 'includes/title.php'; ?>
                     <!-- End Page Title -->
 
                     <!-- System Settings Tabs -->
@@ -255,7 +255,7 @@
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <?php include 'footer.php'; ?>
+            <?php include 'includes/footer.php'; ?>
             <!-- End Footer -->
 
         </div>
@@ -267,7 +267,7 @@
     <!-- END wrapper -->
 
     <!-- Right Sidebar -->
-    <?php include 'rightbar.php'; ?>
+    <?php include 'includes/rightbar.php'; ?>
     <div class="rightbar-overlay"></div>
 
     <!-- Toast Notification -->
